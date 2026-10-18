@@ -5,7 +5,7 @@
     <artifactId>smspool-sdk</artifactId>
     <packaging>jar</packaging>
     <name>smspool-sdk</name>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <url>https://github.com/smspool/smspool-java</url>
     <description>Official Java client for the SMSPool API (https://api.smspool.net/docs).</description>
     <scm>
@@ -241,13 +241,10 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.8</version>
                         <configuration>
-                            <gpgArguments>
-                                <arg>--pinentry-mode</arg>
-                                <arg>loopback</arg>
-                            </gpgArguments>
+                            <signer>bc</signer>
                         </configuration>
-                        <version>3.2.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

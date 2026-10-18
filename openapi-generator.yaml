@@ -5,7 +5,7 @@ gitRepoId: smspool-java
 additionalProperties:
   groupId: io.github.smspool
   artifactId: smspool-sdk
-  artifactVersion: 0.1.0
+  artifactVersion: 0.1.1
   artifactDescription: Official Java client for the SMSPool API (https://api.smspool.net/docs).
   apiPackage: io.github.smspool.api
   modelPackage: io.github.smspool.model
