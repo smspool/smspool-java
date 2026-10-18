@@ -11,7 +11,7 @@ Package: [`io.github.smspool:smspool-sdk`](https://central.sonatype.com/artifact
 <dependency>
   <groupId>io.github.smspool</groupId>
   <artifactId>smspool-sdk</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.3</version>
 </dependency>
 ```
 
