@@ -21,3 +21,4 @@ additionalProperties:
   licenseName: MIT
   licenseUrl: https://opensource.org/licenses/MIT
   openApiNullable: false
+  hideGenerationTimestamp: true
