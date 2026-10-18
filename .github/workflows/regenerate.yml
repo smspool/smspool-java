@@ -1,0 +1,38 @@
+name: Regenerate
+# Weekly (and on demand): regenerate from https://api.smspool.net/openapi.json
+# and open a pull request when the SDK changed. CI is started on that
+# branch, since pull requests opened by GITHUB_TOKEN do not trigger it.
+on:
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+jobs:
+  regenerate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: scripts/generate.sh
+      - name: Open a pull request if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "The SDK already matches the spec."
+            exit 0
+          fi
+          branch=regenerate/api-spec
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add -A
+          git commit -q -m "Regenerate from the latest API spec"
+          git push -f origin "$branch"
+          if ! gh pr view "$branch" >/dev/null 2>&1; then
+            gh pr create --head "$branch" --title "Regenerate from the latest API spec" \
+              --body "The API spec at https://api.smspool.net/openapi.json changed. Review the diff, check CI, then merge and release (see README)."
+          fi
+          gh workflow run ci.yml --ref "$branch"

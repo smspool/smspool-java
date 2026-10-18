@@ -1,0 +1,21 @@
+# Hand-written files: the generator must leave these alone.
+/README.md
+LICENSE
+.github/**
+scripts/**
+smoke/**
+
+# Generator extras this repo does not use.
+git_push.sh
+src/test/**
+api/**
+build.gradle
+build.sbt
+settings.gradle
+gradle.properties
+gradle/**
+gradlew
+gradlew.bat
+src/main/AndroidManifest.xml
+.travis.yml
+.gitlab-ci.yml

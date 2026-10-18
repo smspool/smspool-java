@@ -1,0 +1,23 @@
+generatorName: java
+gitHost: github.com
+gitUserId: smspool
+gitRepoId: smspool-java
+additionalProperties:
+  groupId: io.github.smspool
+  artifactId: smspool-sdk
+  artifactVersion: 0.1.0
+  artifactDescription: Official Java client for the SMSPool API (https://api.smspool.net/docs).
+  apiPackage: io.github.smspool.api
+  modelPackage: io.github.smspool.model
+  invokerPackage: io.github.smspool
+  artifactUrl: https://github.com/smspool/smspool-java
+  scmConnection: scm:git:git://github.com/smspool/smspool-java.git
+  scmDeveloperConnection: scm:git:ssh://github.com/smspool/smspool-java.git
+  scmUrl: https://github.com/smspool/smspool-java
+  developerName: SMSPool
+  developerEmail: support@smspool.net
+  developerOrganization: SMSPool
+  developerOrganizationUrl: https://www.smspool.net
+  licenseName: MIT
+  licenseUrl: https://opensource.org/licenses/MIT
+  openApiNullable: false
