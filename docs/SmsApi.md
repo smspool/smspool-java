@@ -11,6 +11,7 @@ All URIs are relative to *https://api.smspool.net*
 | [**requestHistory**](SmsApi.md#requestHistory) | **POST** /request/history | Order History |
 | [**smsActivate**](SmsApi.md#smsActivate) | **POST** /sms/activate | Activate SMS |
 | [**smsAllStock**](SmsApi.md#smsAllStock) | **POST** /sms/all_stock | One-time stock for all services |
+| [**smsArchive**](SmsApi.md#smsArchive) | **POST** /sms/archive | Archive |
 | [**smsCancel**](SmsApi.md#smsCancel) | **POST** /sms/cancel | Cancel SMS |
 | [**smsCancelAll**](SmsApi.md#smsCancelAll) | **POST** /sms/cancel_all | Cancel All SMS |
 | [**smsCheck**](SmsApi.md#smsCheck) | **POST** /sms/check | Check SMS |
@@ -518,6 +519,75 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+
+<a id="smsArchive"></a>
+# **smsArchive**
+> Object smsArchive(orderid)
+
+Archive
+
+_Not documented yet: the parameters below come straight from the code._
+
+### Example
+```java
+// Import classes:
+import io.github.smspool.ApiClient;
+import io.github.smspool.ApiException;
+import io.github.smspool.Configuration;
+import io.github.smspool.auth.*;
+import io.github.smspool.models.*;
+import io.github.smspool.api.SmsApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.smspool.net");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    SmsApi apiInstance = new SmsApi(defaultClient);
+    String orderid = "orderid_example"; // String | 
+    try {
+      Object result = apiInstance.smsArchive(orderid);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling SmsApi#smsArchive");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderid** | **String**|  | |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | JSON response |  -  |
+| **401** | Malformed API key |  -  |
+| **403** | Unknown or revoked API key |  -  |
 
 <a id="smsCancel"></a>
 # **smsCancel**

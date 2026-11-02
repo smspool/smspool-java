@@ -1158,6 +1158,145 @@ public class SmsApi {
         return localVarCall;
     }
     /**
+     * Build call for smsArchive
+     * @param orderid  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call smsArchiveCall(@javax.annotation.Nonnull String orderid, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/sms/archive";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (orderid != null) {
+            localVarFormParams.put("orderid", orderid);
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/x-www-form-urlencoded"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call smsArchiveValidateBeforeCall(@javax.annotation.Nonnull String orderid, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'orderid' is set
+        if (orderid == null) {
+            throw new ApiException("Missing the required parameter 'orderid' when calling smsArchive(Async)");
+        }
+
+        return smsArchiveCall(orderid, _callback);
+
+    }
+
+    /**
+     * Archive
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param orderid  (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public Object smsArchive(@javax.annotation.Nonnull String orderid) throws ApiException {
+        ApiResponse<Object> localVarResp = smsArchiveWithHttpInfo(orderid);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Archive
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param orderid  (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Object> smsArchiveWithHttpInfo(@javax.annotation.Nonnull String orderid) throws ApiException {
+        okhttp3.Call localVarCall = smsArchiveValidateBeforeCall(orderid, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Archive (asynchronously)
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param orderid  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call smsArchiveAsync(@javax.annotation.Nonnull String orderid, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = smsArchiveValidateBeforeCall(orderid, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for smsCancel
      * @param orderid  (optional)
      * @param orderids  (optional)

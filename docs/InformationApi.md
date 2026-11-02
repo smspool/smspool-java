@@ -8,6 +8,7 @@ All URIs are relative to *https://api.smspool.net*
 | [**poolRetrieveAll**](InformationApi.md#poolRetrieveAll) | **POST** /pool/retrieve_all | Pool list |
 | [**poolRetrieveValid**](InformationApi.md#poolRetrieveValid) | **POST** /pool/retrieve_valid | Suggested Pools |
 | [**requestBalance**](InformationApi.md#requestBalance) | **POST** /request/balance | Balance |
+| [**requestHistorySearch**](InformationApi.md#requestHistorySearch) | **POST** /request/history_search | History search |
 | [**requestSuccessRate**](InformationApi.md#requestSuccessRate) | **POST** /request/success_rate | Retrieve country success rates per service |
 | [**requestSuggestedCountries**](InformationApi.md#requestSuggestedCountries) | **POST** /request/suggested_countries | Suggested Countries |
 | [**serviceRetrieveAll**](InformationApi.md#serviceRetrieveAll) | **GET** /service/retrieve_all | Service list |
@@ -267,6 +268,79 @@ This endpoint does not need any parameter.
 | **400** | Error |  -  |
 | **401** | Malformed API key |  -  |
 | **403** | Error |  -  |
+
+<a id="requestHistorySearch"></a>
+# **requestHistorySearch**
+> Object requestHistorySearch(search, cursor, limit)
+
+History search
+
+_Not documented yet: the parameters below come straight from the code._
+
+### Example
+```java
+// Import classes:
+import io.github.smspool.ApiClient;
+import io.github.smspool.ApiException;
+import io.github.smspool.Configuration;
+import io.github.smspool.auth.*;
+import io.github.smspool.models.*;
+import io.github.smspool.api.InformationApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.smspool.net");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    InformationApi apiInstance = new InformationApi(defaultClient);
+    String search = "search_example"; // String | 
+    String cursor = "cursor_example"; // String | 
+    Integer limit = 56; // Integer | 
+    try {
+      Object result = apiInstance.requestHistorySearch(search, cursor, limit);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling InformationApi#requestHistorySearch");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **search** | **String**|  | |
+| **cursor** | **String**|  | [optional] |
+| **limit** | **Integer**|  | [optional] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | JSON response |  -  |
+| **401** | Malformed API key |  -  |
+| **403** | Unknown or revoked API key |  -  |
 
 <a id="requestSuccessRate"></a>
 # **requestSuccessRate**
