@@ -1,7 +1,6 @@
 .gitignore
 docs/BusinessApi.md
 docs/CarrierApi.md
-docs/ESimsApi.md
 docs/InformationApi.md
 docs/PreordersApi.md
 docs/PricingApi.md
@@ -24,7 +23,6 @@ src/main/java/io/github/smspool/ServerVariable.java
 src/main/java/io/github/smspool/StringUtil.java
 src/main/java/io/github/smspool/api/BusinessApi.java
 src/main/java/io/github/smspool/api/CarrierApi.java
-src/main/java/io/github/smspool/api/ESimsApi.java
 src/main/java/io/github/smspool/api/InformationApi.java
 src/main/java/io/github/smspool/api/PreordersApi.java
 src/main/java/io/github/smspool/api/PricingApi.java

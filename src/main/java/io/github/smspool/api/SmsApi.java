@@ -86,6 +86,7 @@ public class SmsApi {
      * @param activationType Options: SMS, VOICE, FLASH. SMS will receive regular SMS, VOICE will receive phone calls that mentions the SMS and FLASH is for FLASH calls for verification. (optional)
      * @param carrier Options: 1 or 2. Pick a carrier (only works for pool Foxtrot US) (optional)
      * @param phonenumber In case you want to select a specific phone number to order (optional)
+     * @param autoCountry Set to 1 to let SMSPool pick the country: every country with stock is scored on its measured success rate (weighed down when little stock backs it, minus a little per dollar; countries with no order history are left out unless nothing else has stock) with a bonus for a local number, the country your request&#39;s IP resolves to; with pricing_option&#x3D;1 the cheapest country close to the best score wins. Ignored when country is sent. The response then carries auto_country with the chosen country and the reason. (optional)
      * @param software  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -100,7 +101,7 @@ public class SmsApi {
         <tr><td> 422 </td><td> Error </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call purchaseSmsCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer software, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call purchaseSmsCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer autoCountry, @javax.annotation.Nullable Integer software, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -173,6 +174,10 @@ public class SmsApi {
             localVarFormParams.put("phonenumber", phonenumber);
         }
 
+        if (autoCountry != null) {
+            localVarFormParams.put("auto_country", autoCountry);
+        }
+
         if (software != null) {
             localVarFormParams.put("software", software);
         }
@@ -198,13 +203,13 @@ public class SmsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call purchaseSmsValidateBeforeCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer software, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call purchaseSmsValidateBeforeCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer autoCountry, @javax.annotation.Nullable Integer software, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'service' is set
         if (service == null) {
             throw new ApiException("Missing the required parameter 'service' when calling purchaseSms(Async)");
         }
 
-        return purchaseSmsCall(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, software, _callback);
+        return purchaseSmsCall(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, autoCountry, software, _callback);
 
     }
 
@@ -223,6 +228,7 @@ public class SmsApi {
      * @param activationType Options: SMS, VOICE, FLASH. SMS will receive regular SMS, VOICE will receive phone calls that mentions the SMS and FLASH is for FLASH calls for verification. (optional)
      * @param carrier Options: 1 or 2. Pick a carrier (only works for pool Foxtrot US) (optional)
      * @param phonenumber In case you want to select a specific phone number to order (optional)
+     * @param autoCountry Set to 1 to let SMSPool pick the country: every country with stock is scored on its measured success rate (weighed down when little stock backs it, minus a little per dollar; countries with no order history are left out unless nothing else has stock) with a bonus for a local number, the country your request&#39;s IP resolves to; with pricing_option&#x3D;1 the cheapest country close to the best score wins. Ignored when country is sent. The response then carries auto_country with the chosen country and the reason. (optional)
      * @param software  (optional)
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -236,8 +242,8 @@ public class SmsApi {
         <tr><td> 422 </td><td> Error </td><td>  -  </td></tr>
      </table>
      */
-    public Object purchaseSms(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer software) throws ApiException {
-        ApiResponse<Object> localVarResp = purchaseSmsWithHttpInfo(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, software);
+    public Object purchaseSms(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer autoCountry, @javax.annotation.Nullable Integer software) throws ApiException {
+        ApiResponse<Object> localVarResp = purchaseSmsWithHttpInfo(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, autoCountry, software);
         return localVarResp.getData();
     }
 
@@ -256,6 +262,7 @@ public class SmsApi {
      * @param activationType Options: SMS, VOICE, FLASH. SMS will receive regular SMS, VOICE will receive phone calls that mentions the SMS and FLASH is for FLASH calls for verification. (optional)
      * @param carrier Options: 1 or 2. Pick a carrier (only works for pool Foxtrot US) (optional)
      * @param phonenumber In case you want to select a specific phone number to order (optional)
+     * @param autoCountry Set to 1 to let SMSPool pick the country: every country with stock is scored on its measured success rate (weighed down when little stock backs it, minus a little per dollar; countries with no order history are left out unless nothing else has stock) with a bonus for a local number, the country your request&#39;s IP resolves to; with pricing_option&#x3D;1 the cheapest country close to the best score wins. Ignored when country is sent. The response then carries auto_country with the chosen country and the reason. (optional)
      * @param software  (optional)
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -269,8 +276,8 @@ public class SmsApi {
         <tr><td> 422 </td><td> Error </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Object> purchaseSmsWithHttpInfo(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer software) throws ApiException {
-        okhttp3.Call localVarCall = purchaseSmsValidateBeforeCall(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, software, null);
+    public ApiResponse<Object> purchaseSmsWithHttpInfo(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer autoCountry, @javax.annotation.Nullable Integer software) throws ApiException {
+        okhttp3.Call localVarCall = purchaseSmsValidateBeforeCall(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, autoCountry, software, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -290,6 +297,7 @@ public class SmsApi {
      * @param activationType Options: SMS, VOICE, FLASH. SMS will receive regular SMS, VOICE will receive phone calls that mentions the SMS and FLASH is for FLASH calls for verification. (optional)
      * @param carrier Options: 1 or 2. Pick a carrier (only works for pool Foxtrot US) (optional)
      * @param phonenumber In case you want to select a specific phone number to order (optional)
+     * @param autoCountry Set to 1 to let SMSPool pick the country: every country with stock is scored on its measured success rate (weighed down when little stock backs it, minus a little per dollar; countries with no order history are left out unless nothing else has stock) with a bonus for a local number, the country your request&#39;s IP resolves to; with pricing_option&#x3D;1 the cheapest country close to the best score wins. Ignored when country is sent. The response then carries auto_country with the chosen country and the reason. (optional)
      * @param software  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -304,9 +312,9 @@ public class SmsApi {
         <tr><td> 422 </td><td> Error </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call purchaseSmsAsync(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer software, final ApiCallback<Object> _callback) throws ApiException {
+    public okhttp3.Call purchaseSmsAsync(@javax.annotation.Nonnull String service, @javax.annotation.Nullable String country, @javax.annotation.Nullable String pool, @javax.annotation.Nullable BigDecimal maxPrice, @javax.annotation.Nullable Integer pricingOption, @javax.annotation.Nullable Integer quantity, @javax.annotation.Nullable String areacode, @javax.annotation.Nullable Integer exclude, @javax.annotation.Nullable Integer createToken, @javax.annotation.Nullable String activationType, @javax.annotation.Nullable Integer carrier, @javax.annotation.Nullable Integer phonenumber, @javax.annotation.Nullable Integer autoCountry, @javax.annotation.Nullable Integer software, final ApiCallback<Object> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = purchaseSmsValidateBeforeCall(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, software, _callback);
+        okhttp3.Call localVarCall = purchaseSmsValidateBeforeCall(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, autoCountry, software, _callback);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -574,6 +582,8 @@ public class SmsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call requestAreacodesCall(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull String pool, final ApiCallback _callback) throws ApiException {
@@ -629,7 +639,7 @@ public class SmsApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -667,6 +677,8 @@ public class SmsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public Object requestAreacodes(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull String pool) throws ApiException {
@@ -687,6 +699,8 @@ public class SmsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<Object> requestAreacodesWithHttpInfo(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull String pool) throws ApiException {
@@ -709,6 +723,8 @@ public class SmsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call requestAreacodesAsync(@javax.annotation.Nonnull String service, @javax.annotation.Nonnull String country, @javax.annotation.Nonnull String pool, final ApiCallback<Object> _callback) throws ApiException {
@@ -1153,6 +1169,145 @@ public class SmsApi {
     public okhttp3.Call smsAllStockAsync(@javax.annotation.Nullable String country, @javax.annotation.Nullable String service, @javax.annotation.Nullable String pool, final ApiCallback<Object> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = smsAllStockValidateBeforeCall(country, service, pool, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for smsArchive
+     * @param orderid  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call smsArchiveCall(@javax.annotation.Nonnull String orderid, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/sms/archive";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (orderid != null) {
+            localVarFormParams.put("orderid", orderid);
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/x-www-form-urlencoded"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call smsArchiveValidateBeforeCall(@javax.annotation.Nonnull String orderid, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'orderid' is set
+        if (orderid == null) {
+            throw new ApiException("Missing the required parameter 'orderid' when calling smsArchive(Async)");
+        }
+
+        return smsArchiveCall(orderid, _callback);
+
+    }
+
+    /**
+     * Archive
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param orderid  (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public Object smsArchive(@javax.annotation.Nonnull String orderid) throws ApiException {
+        ApiResponse<Object> localVarResp = smsArchiveWithHttpInfo(orderid);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Archive
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param orderid  (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Object> smsArchiveWithHttpInfo(@javax.annotation.Nonnull String orderid) throws ApiException {
+        okhttp3.Call localVarCall = smsArchiveValidateBeforeCall(orderid, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Archive (asynchronously)
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param orderid  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call smsArchiveAsync(@javax.annotation.Nonnull String orderid, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = smsArchiveValidateBeforeCall(orderid, _callback);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -1936,7 +2091,7 @@ public class SmsApi {
 
     /**
      * Missed SMS
-     * Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes or Hark reward payouts. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
+     * Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes, Hark reward payouts or Neon Money Talks messages. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
      * @param phonenumber Only return messages for this number, including the country code. Leave it out for all your numbers. (optional)
      * @param limit Maximum number of messages. Defaults to 100, at most 500. (optional)
      * @return Object
@@ -1957,7 +2112,7 @@ public class SmsApi {
 
     /**
      * Missed SMS
-     * Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes or Hark reward payouts. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
+     * Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes, Hark reward payouts or Neon Money Talks messages. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
      * @param phonenumber Only return messages for this number, including the country code. Leave it out for all your numbers. (optional)
      * @param limit Maximum number of messages. Defaults to 100, at most 500. (optional)
      * @return ApiResponse&lt;Object&gt;
@@ -1979,7 +2134,7 @@ public class SmsApi {
 
     /**
      * Missed SMS (asynchronously)
-     * Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes or Hark reward payouts. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
+     * Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes, Hark reward payouts or Neon Money Talks messages. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
      * @param phonenumber Only return messages for this number, including the country code. Leave it out for all your numbers. (optional)
      * @param limit Maximum number of messages. Defaults to 100, at most 500. (optional)
      * @param _callback The callback to be executed when the API call finishes

@@ -2221,6 +2221,8 @@ public class RentalApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call rentalStockCall(@javax.annotation.Nonnull Integer id, @javax.annotation.Nonnull Integer days, @javax.annotation.Nullable Integer serviceId, final ApiCallback _callback) throws ApiException {
@@ -2276,7 +2278,7 @@ public class RentalApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
         return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
@@ -2309,6 +2311,8 @@ public class RentalApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public Object rentalStock(@javax.annotation.Nonnull Integer id, @javax.annotation.Nonnull Integer days, @javax.annotation.Nullable Integer serviceId) throws ApiException {
@@ -2329,6 +2333,8 @@ public class RentalApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<Object> rentalStockWithHttpInfo(@javax.annotation.Nonnull Integer id, @javax.annotation.Nonnull Integer days, @javax.annotation.Nullable Integer serviceId) throws ApiException {
@@ -2351,6 +2357,8 @@ public class RentalApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call rentalStockAsync(@javax.annotation.Nonnull Integer id, @javax.annotation.Nonnull Integer days, @javax.annotation.Nullable Integer serviceId, final ApiCallback<Object> _callback) throws ApiException {

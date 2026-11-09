@@ -478,6 +478,149 @@ public class InformationApi {
         return localVarCall;
     }
     /**
+     * Build call for requestAutoCountry
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call requestAutoCountryCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/request/auto_country";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (service != null) {
+            localVarFormParams.put("service", service);
+        }
+
+        if (pricingOption != null) {
+            localVarFormParams.put("pricing_option", pricingOption);
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/x-www-form-urlencoded"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call requestAutoCountryValidateBeforeCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'service' is set
+        if (service == null) {
+            throw new ApiException("Missing the required parameter 'service' when calling requestAutoCountry(Async)");
+        }
+
+        return requestAutoCountryCall(service, pricingOption, _callback);
+
+    }
+
+    /**
+     * Pick the best country for a service
+     * Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its measured success rate (a country with no order history displays 100% but has nothing to back it up, so it is left out unless no measured country has stock), weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public Object requestAutoCountry(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption) throws ApiException {
+        ApiResponse<Object> localVarResp = requestAutoCountryWithHttpInfo(service, pricingOption);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Pick the best country for a service
+     * Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its measured success rate (a country with no order history displays 100% but has nothing to back it up, so it is left out unless no measured country has stock), weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Object> requestAutoCountryWithHttpInfo(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption) throws ApiException {
+        okhttp3.Call localVarCall = requestAutoCountryValidateBeforeCall(service, pricingOption, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Pick the best country for a service (asynchronously)
+     * Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its measured success rate (a country with no order history displays 100% but has nothing to back it up, so it is left out unless no measured country has stock), weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call requestAutoCountryAsync(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = requestAutoCountryValidateBeforeCall(service, pricingOption, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for requestBalance
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -602,6 +745,161 @@ public class InformationApi {
     public okhttp3.Call requestBalanceAsync(final ApiCallback<Object> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = requestBalanceValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for requestHistorySearch
+     * @param search  (required)
+     * @param cursor  (optional)
+     * @param limit  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call requestHistorySearchCall(@javax.annotation.Nonnull String search, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/request/history_search";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (search != null) {
+            localVarFormParams.put("search", search);
+        }
+
+        if (cursor != null) {
+            localVarFormParams.put("cursor", cursor);
+        }
+
+        if (limit != null) {
+            localVarFormParams.put("limit", limit);
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/x-www-form-urlencoded"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call requestHistorySearchValidateBeforeCall(@javax.annotation.Nonnull String search, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable Integer limit, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'search' is set
+        if (search == null) {
+            throw new ApiException("Missing the required parameter 'search' when calling requestHistorySearch(Async)");
+        }
+
+        return requestHistorySearchCall(search, cursor, limit, _callback);
+
+    }
+
+    /**
+     * History search
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param search  (required)
+     * @param cursor  (optional)
+     * @param limit  (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public Object requestHistorySearch(@javax.annotation.Nonnull String search, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable Integer limit) throws ApiException {
+        ApiResponse<Object> localVarResp = requestHistorySearchWithHttpInfo(search, cursor, limit);
+        return localVarResp.getData();
+    }
+
+    /**
+     * History search
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param search  (required)
+     * @param cursor  (optional)
+     * @param limit  (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Object> requestHistorySearchWithHttpInfo(@javax.annotation.Nonnull String search, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable Integer limit) throws ApiException {
+        okhttp3.Call localVarCall = requestHistorySearchValidateBeforeCall(search, cursor, limit, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * History search (asynchronously)
+     * _Not documented yet: the parameters below come straight from the code._
+     * @param search  (required)
+     * @param cursor  (optional)
+     * @param limit  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> JSON response </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> Malformed API key </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Unknown or revoked API key </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call requestHistorySearchAsync(@javax.annotation.Nonnull String search, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable Integer limit, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = requestHistorySearchValidateBeforeCall(search, cursor, limit, _callback);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

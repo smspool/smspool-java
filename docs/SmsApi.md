@@ -11,6 +11,7 @@ All URIs are relative to *https://api.smspool.net*
 | [**requestHistory**](SmsApi.md#requestHistory) | **POST** /request/history | Order History |
 | [**smsActivate**](SmsApi.md#smsActivate) | **POST** /sms/activate | Activate SMS |
 | [**smsAllStock**](SmsApi.md#smsAllStock) | **POST** /sms/all_stock | One-time stock for all services |
+| [**smsArchive**](SmsApi.md#smsArchive) | **POST** /sms/archive | Archive |
 | [**smsCancel**](SmsApi.md#smsCancel) | **POST** /sms/cancel | Cancel SMS |
 | [**smsCancelAll**](SmsApi.md#smsCancelAll) | **POST** /sms/cancel_all | Cancel All SMS |
 | [**smsCheck**](SmsApi.md#smsCheck) | **POST** /sms/check | Check SMS |
@@ -25,7 +26,7 @@ All URIs are relative to *https://api.smspool.net*
 
 <a id="purchaseSms"></a>
 # **purchaseSms**
-> Object purchaseSms(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, software)
+> Object purchaseSms(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, autoCountry, software)
 
 Order SMS
 
@@ -61,9 +62,10 @@ public class Example {
     String activationType = "activationType_example"; // String | Options: SMS, VOICE, FLASH. SMS will receive regular SMS, VOICE will receive phone calls that mentions the SMS and FLASH is for FLASH calls for verification.
     Integer carrier = 56; // Integer | Options: 1 or 2. Pick a carrier (only works for pool Foxtrot US)
     Integer phonenumber = 56; // Integer | In case you want to select a specific phone number to order
+    Integer autoCountry = 56; // Integer | Set to 1 to let SMSPool pick the country: every country with stock is scored on its measured success rate (weighed down when little stock backs it, minus a little per dollar; countries with no order history are left out unless nothing else has stock) with a bonus for a local number, the country your request's IP resolves to; with pricing_option=1 the cheapest country close to the best score wins. Ignored when country is sent. The response then carries auto_country with the chosen country and the reason.
     Integer software = 56; // Integer | 
     try {
-      Object result = apiInstance.purchaseSms(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, software);
+      Object result = apiInstance.purchaseSms(service, country, pool, maxPrice, pricingOption, quantity, areacode, exclude, createToken, activationType, carrier, phonenumber, autoCountry, software);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling SmsApi#purchaseSms");
@@ -92,6 +94,7 @@ public class Example {
 | **activationType** | **String**| Options: SMS, VOICE, FLASH. SMS will receive regular SMS, VOICE will receive phone calls that mentions the SMS and FLASH is for FLASH calls for verification. | [optional] |
 | **carrier** | **Integer**| Options: 1 or 2. Pick a carrier (only works for pool Foxtrot US) | [optional] |
 | **phonenumber** | **Integer**| In case you want to select a specific phone number to order | [optional] |
+| **autoCountry** | **Integer**| Set to 1 to let SMSPool pick the country: every country with stock is scored on its measured success rate (weighed down when little stock backs it, minus a little per dollar; countries with no order history are left out unless nothing else has stock) with a bonus for a local number, the country your request&#39;s IP resolves to; with pricing_option&#x3D;1 the cheapest country close to the best score wins. Ignored when country is sent. The response then carries auto_country with the chosen country and the reason. | [optional] |
 | **software** | **Integer**|  | [optional] |
 
 ### Return type
@@ -257,6 +260,7 @@ Request available areacodes
 import io.github.smspool.ApiClient;
 import io.github.smspool.ApiException;
 import io.github.smspool.Configuration;
+import io.github.smspool.auth.*;
 import io.github.smspool.models.*;
 import io.github.smspool.api.SmsApi;
 
@@ -264,6 +268,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.smspool.net");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
 
     SmsApi apiInstance = new SmsApi(defaultClient);
     String service = "service_example"; // String | The service or number retrieved from the `Service List` endpoint
@@ -297,7 +305,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -308,6 +316,8 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | JSON response |  -  |
+| **401** | Malformed API key |  -  |
+| **403** | Unknown or revoked API key |  -  |
 
 <a id="requestHistory"></a>
 # **requestHistory**
@@ -518,6 +528,75 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+
+<a id="smsArchive"></a>
+# **smsArchive**
+> Object smsArchive(orderid)
+
+Archive
+
+_Not documented yet: the parameters below come straight from the code._
+
+### Example
+```java
+// Import classes:
+import io.github.smspool.ApiClient;
+import io.github.smspool.ApiException;
+import io.github.smspool.Configuration;
+import io.github.smspool.auth.*;
+import io.github.smspool.models.*;
+import io.github.smspool.api.SmsApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.smspool.net");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    SmsApi apiInstance = new SmsApi(defaultClient);
+    String orderid = "orderid_example"; // String | 
+    try {
+      Object result = apiInstance.smsArchive(orderid);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling SmsApi#smsArchive");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderid** | **String**|  | |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | JSON response |  -  |
+| **401** | Malformed API key |  -  |
+| **403** | Unknown or revoked API key |  -  |
 
 <a id="smsCancel"></a>
 # **smsCancel**
@@ -872,7 +951,7 @@ This endpoint does not need any parameter.
 
 Missed SMS
 
-Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes or Hark reward payouts. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
+Some messages arrive on a number from your one-time orders but cannot finish the order, such as Ticketmaster and Seated codes, Hark reward payouts or Neon Money Talks messages. This returns those messages, the same ones the Missed SMS tool on the website shows. Only numbers from pool Foxtrot are covered.  The newest messages come first. &#x60;url&#x60;, &#x60;code&#x60; and &#x60;email&#x60; hold the first link, code and email address found in the message, or an empty string.
 
 ### Example
 ```java

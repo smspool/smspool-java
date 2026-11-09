@@ -1045,6 +1045,7 @@ Retrieve Rental Stock
 import io.github.smspool.ApiClient;
 import io.github.smspool.ApiException;
 import io.github.smspool.Configuration;
+import io.github.smspool.auth.*;
 import io.github.smspool.models.*;
 import io.github.smspool.api.RentalApi;
 
@@ -1052,6 +1053,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.smspool.net");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
 
     RentalApi apiInstance = new RentalApi(defaultClient);
     Integer id = 56; // Integer | The rental ID retrieved from `Retrieve Rental IDs`
@@ -1085,7 +1090,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1096,4 +1101,6 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+| **401** | Malformed API key |  -  |
+| **403** | Unknown or revoked API key |  -  |
 

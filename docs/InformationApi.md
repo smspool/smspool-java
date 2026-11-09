@@ -7,7 +7,9 @@ All URIs are relative to *https://api.smspool.net*
 | [**countryRetrieveAll**](InformationApi.md#countryRetrieveAll) | **GET** /country/retrieve_all | Country list |
 | [**poolRetrieveAll**](InformationApi.md#poolRetrieveAll) | **POST** /pool/retrieve_all | Pool list |
 | [**poolRetrieveValid**](InformationApi.md#poolRetrieveValid) | **POST** /pool/retrieve_valid | Suggested Pools |
+| [**requestAutoCountry**](InformationApi.md#requestAutoCountry) | **POST** /request/auto_country | Pick the best country for a service |
 | [**requestBalance**](InformationApi.md#requestBalance) | **POST** /request/balance | Balance |
+| [**requestHistorySearch**](InformationApi.md#requestHistorySearch) | **POST** /request/history_search | History search |
 | [**requestSuccessRate**](InformationApi.md#requestSuccessRate) | **POST** /request/success_rate | Retrieve country success rates per service |
 | [**requestSuggestedCountries**](InformationApi.md#requestSuggestedCountries) | **POST** /request/suggested_countries | Suggested Countries |
 | [**serviceRetrieveAll**](InformationApi.md#serviceRetrieveAll) | **GET** /service/retrieve_all | Service list |
@@ -202,6 +204,71 @@ No authorization required
 | **200** | OK |  -  |
 | **400** | Error |  -  |
 
+<a id="requestAutoCountry"></a>
+# **requestAutoCountry**
+> Object requestAutoCountry(service, pricingOption)
+
+Pick the best country for a service
+
+Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its measured success rate (a country with no order history displays 100% but has nothing to back it up, so it is left out unless no measured country has stock), weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+
+### Example
+```java
+// Import classes:
+import io.github.smspool.ApiClient;
+import io.github.smspool.ApiException;
+import io.github.smspool.Configuration;
+import io.github.smspool.models.*;
+import io.github.smspool.api.InformationApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.smspool.net");
+
+    InformationApi apiInstance = new InformationApi(defaultClient);
+    String service = "service_example"; // String | Service name or service ID which can be retrieved at the /service/retrieve_all endpoint
+    Integer pricingOption = 56; // Integer | Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score.
+    try {
+      Object result = apiInstance.requestAutoCountry(service, pricingOption);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling InformationApi#requestAutoCountry");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **service** | **String**| Service name or service ID which can be retrieved at the /service/retrieve_all endpoint | |
+| **pricingOption** | **Integer**| Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. | [optional] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Error |  -  |
+
 <a id="requestBalance"></a>
 # **requestBalance**
 > Object requestBalance()
@@ -267,6 +334,79 @@ This endpoint does not need any parameter.
 | **400** | Error |  -  |
 | **401** | Malformed API key |  -  |
 | **403** | Error |  -  |
+
+<a id="requestHistorySearch"></a>
+# **requestHistorySearch**
+> Object requestHistorySearch(search, cursor, limit)
+
+History search
+
+_Not documented yet: the parameters below come straight from the code._
+
+### Example
+```java
+// Import classes:
+import io.github.smspool.ApiClient;
+import io.github.smspool.ApiException;
+import io.github.smspool.Configuration;
+import io.github.smspool.auth.*;
+import io.github.smspool.models.*;
+import io.github.smspool.api.InformationApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.smspool.net");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    InformationApi apiInstance = new InformationApi(defaultClient);
+    String search = "search_example"; // String | 
+    String cursor = "cursor_example"; // String | 
+    Integer limit = 56; // Integer | 
+    try {
+      Object result = apiInstance.requestHistorySearch(search, cursor, limit);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling InformationApi#requestHistorySearch");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **search** | **String**|  | |
+| **cursor** | **String**|  | [optional] |
+| **limit** | **Integer**|  | [optional] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | JSON response |  -  |
+| **401** | Malformed API key |  -  |
+| **403** | Unknown or revoked API key |  -  |
 
 <a id="requestSuccessRate"></a>
 # **requestSuccessRate**
