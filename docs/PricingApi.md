@@ -81,6 +81,8 @@ No authorization required
 
 Retrieve all pricing
 
+Retrieves prices, optionally filtered by country, service, pool and maximum price (&#x60;max_price&#x60; is rounded to two decimals).  Without any filter the response is the full catalog (about 20 MB), rebuilt once an hour. It is sent with &#x60;ETag&#x60;, &#x60;Last-Modified&#x60; and &#x60;Cache-Control&#x60; headers: send &#x60;If-None-Match&#x60; (or &#x60;If-Modified-Since&#x60;) with your next request and you get &#x60;304 Not Modified&#x60; with no body while the catalog has not changed.
+
 ### Example
 ```java
 // Import classes:
