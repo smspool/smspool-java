@@ -7,6 +7,7 @@ All URIs are relative to *https://api.smspool.net*
 | [**countryRetrieveAll**](InformationApi.md#countryRetrieveAll) | **GET** /country/retrieve_all | Country list |
 | [**poolRetrieveAll**](InformationApi.md#poolRetrieveAll) | **POST** /pool/retrieve_all | Pool list |
 | [**poolRetrieveValid**](InformationApi.md#poolRetrieveValid) | **POST** /pool/retrieve_valid | Suggested Pools |
+| [**requestAutoCountry**](InformationApi.md#requestAutoCountry) | **POST** /request/auto_country | Pick the best country for a service |
 | [**requestBalance**](InformationApi.md#requestBalance) | **POST** /request/balance | Balance |
 | [**requestSuccessRate**](InformationApi.md#requestSuccessRate) | **POST** /request/success_rate | Retrieve country success rates per service |
 | [**requestSuggestedCountries**](InformationApi.md#requestSuggestedCountries) | **POST** /request/suggested_countries | Suggested Countries |
@@ -202,13 +203,78 @@ No authorization required
 | **200** | OK |  -  |
 | **400** | Error |  -  |
 
+<a id="requestAutoCountry"></a>
+# **requestAutoCountry**
+> Object requestAutoCountry(service, pricingOption)
+
+Pick the best country for a service
+
+Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its expected success rate, weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  &#x60;success_rate&#x60; is that expected rate. Where the service has at least 20 recent orders in the country it is the measured rate and &#x60;rate_measured&#x60; is true. With fewer, it is an estimate that blends those orders (&#x60;rate_orders&#x60; of them) with how the country does across all services and how the service does elsewhere, and &#x60;rate_measured&#x60; is false.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+
+### Example
+```java
+// Import classes:
+import io.github.smspool.ApiClient;
+import io.github.smspool.ApiException;
+import io.github.smspool.Configuration;
+import io.github.smspool.models.*;
+import io.github.smspool.api.InformationApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://api.smspool.net");
+
+    InformationApi apiInstance = new InformationApi(defaultClient);
+    String service = "service_example"; // String | Service name or service ID which can be retrieved at the /service/retrieve_all endpoint
+    Integer pricingOption = 56; // Integer | Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score.
+    try {
+      Object result = apiInstance.requestAutoCountry(service, pricingOption);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling InformationApi#requestAutoCountry");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **service** | **String**| Service name or service ID which can be retrieved at the /service/retrieve_all endpoint | |
+| **pricingOption** | **Integer**| Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. | [optional] |
+
+### Return type
+
+**Object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+| **400** | Error |  -  |
+
 <a id="requestBalance"></a>
 # **requestBalance**
 > Object requestBalance()
 
 Balance
 
-This HTTP POST request is used to retrieve the balance for a specific SMSPool. The request is sent to the URL &#x60;https://api.smspool.net/request/balance&#x60;.  ### Request Parameters  This request require the \\&#x60;key\\&#x60; param which is your API key  ### Response  The response to this request will have a status code of 200 if the request is successful. The response body will be in JSON format and will include a &#x60;balance&#x60; field. However, the last execution of this request returned an empty string for the &#x60;balance&#x60; field.  Please note that the actual value of the &#x60;balance&#x60; field may vary depending on the user and its configuration.
+Retrieves your account balance in USD.  ### Request Parameters  Only your API key, sent as a bearer token.  ### Response  A JSON object with a &#x60;balance&#x60; field: the balance as a string with two decimals, for example &#x60;\&quot;5.00\&quot;&#x60;.
 
 ### Example
 ```java

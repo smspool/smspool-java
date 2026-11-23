@@ -148,7 +148,7 @@ public class Example {
 
 <a id="voucherGenerate"></a>
 # **voucherGenerate**
-> Object voucherGenerate(amount)
+> Object voucherGenerate(amount, idempotencyKey)
 
 Generate voucher
 
@@ -173,8 +173,9 @@ public class Example {
 
     VoucherApi apiInstance = new VoucherApi(defaultClient);
     BigDecimal amount = new BigDecimal(78); // BigDecimal | The amount per promocode
+    String idempotencyKey = "3f1c2c0e-7d5b-4a52-9a53-1f6f0f0f2b11"; // String | 
     try {
-      Object result = apiInstance.voucherGenerate(amount);
+      Object result = apiInstance.voucherGenerate(amount, idempotencyKey);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling VoucherApi#voucherGenerate");
@@ -192,6 +193,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **amount** | **BigDecimal**| The amount per promocode | |
+| **idempotencyKey** | **String**|  | [optional] |
 
 ### Return type
 

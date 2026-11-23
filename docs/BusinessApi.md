@@ -156,6 +156,8 @@ public class Example {
 
 Update
 
+Updates a sub-account. Send only the fields you want to change.  &#x60;query&#x60; holds the result of each requested change. &#x60;success&#x60; is 1 only when every one of them succeeded; otherwise it is 0, &#x60;failed&#x60; lists the fields that were refused and &#x60;message&#x60; repeats the first refusal.
+
 ### Example
 ```java
 // Import classes:

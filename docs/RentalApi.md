@@ -24,7 +24,7 @@ All URIs are relative to *https://api.smspool.net*
 
 <a id="purchaseRental"></a>
 # **purchaseRental**
-> Object purchaseRental(id, days, serviceId, createToken, city, state, zipcode)
+> Object purchaseRental(id, days, idempotencyKey, serviceId, createToken, city, state, zipcode)
 
 Order Rental
 
@@ -50,13 +50,14 @@ public class Example {
     RentalApi apiInstance = new RentalApi(defaultClient);
     Integer id = 56; // Integer | Rental ID retrieved from Retrieve Rental IDs
     Integer days = 56; // Integer | 
+    String idempotencyKey = "3f1c2c0e-7d5b-4a52-9a53-1f6f0f0f2b11"; // String | 
     Integer serviceId = 56; // Integer | Optional value on which service you'd purchase the rental for
     Integer createToken = 56; // Integer | Create a rental token which allows you to share this specific rental
     String city = "city_example"; // String | 
     String state = "state_example"; // String | 
     String zipcode = "zipcode_example"; // String | 
     try {
-      Object result = apiInstance.purchaseRental(id, days, serviceId, createToken, city, state, zipcode);
+      Object result = apiInstance.purchaseRental(id, days, idempotencyKey, serviceId, createToken, city, state, zipcode);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling RentalApi#purchaseRental");
@@ -75,6 +76,7 @@ public class Example {
 |------------- | ------------- | ------------- | -------------|
 | **id** | **Integer**| Rental ID retrieved from Retrieve Rental IDs | |
 | **days** | **Integer**|  | |
+| **idempotencyKey** | **String**|  | [optional] |
 | **serviceId** | **Integer**| Optional value on which service you&#39;d purchase the rental for | [optional] |
 | **createToken** | **Integer**| Create a rental token which allows you to share this specific rental | [optional] |
 | **city** | **String**|  | [optional] |
@@ -101,6 +103,7 @@ public class Example {
 | **400** | Error |  -  |
 | **401** | Malformed API key |  -  |
 | **403** | Unknown or revoked API key |  -  |
+| **409** | Error |  -  |
 
 <a id="rentalAutoExtend"></a>
 # **rentalAutoExtend**
@@ -710,6 +713,8 @@ This endpoint does not need any parameter.
 
 Retrieve Rental Messages
 
+Successful answers are cached for 3 seconds per rental, so polling faster than that returns the same data.
+
 ### Example
 ```java
 // Import classes:
@@ -900,6 +905,8 @@ No authorization required
 
 Retrieve Rental Status
 
+Successful answers are cached for 3 seconds per rental, so polling faster than that returns the same data.
+
 ### Example
 ```java
 // Import classes:
@@ -1045,6 +1052,7 @@ Retrieve Rental Stock
 import io.github.smspool.ApiClient;
 import io.github.smspool.ApiException;
 import io.github.smspool.Configuration;
+import io.github.smspool.auth.*;
 import io.github.smspool.models.*;
 import io.github.smspool.api.RentalApi;
 
@@ -1052,6 +1060,10 @@ public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("https://api.smspool.net");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
 
     RentalApi apiInstance = new RentalApi(defaultClient);
     Integer id = 56; // Integer | The rental ID retrieved from `Retrieve Rental IDs`
@@ -1085,7 +1097,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -1096,4 +1108,6 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+| **401** | Malformed API key |  -  |
+| **403** | Unknown or revoked API key |  -  |
 

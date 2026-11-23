@@ -1,6 +1,6 @@
 /*
  * SMSPool API
- * Every endpoint accepts its parameters as form fields (POST) or query parameters (GET).  Authenticate with your API key from https://www.smspool.net/my/settings, either as a bearer token (`Authorization: Bearer <key>`) or as a `key` parameter.
+ * Every endpoint accepts its parameters as form fields (POST) or query parameters (GET). A JSON object body (`Content-Type: application/json`) works too: its top-level fields are read as parameters; a parameter that is also in the query string or form body wins.  Authenticate with your API key from https://www.smspool.net/my/settings as a bearer token: `Authorization: Bearer <key>`. A `key` field in a POST body works too. Keep the key out of the URL: a URL is saved in browser history and can be recorded by proxies and logs on the way to us.  Use of the API is subject to the [Terms of Service](https://www.smspool.net/tos#api). Article 11 covers API use: sanctions and geographic restrictions, what you must require of your own users if you resell the service, and the safekeeping of keys.  ## Errors  An error answers with `success: 0`, a human-readable `message` and, where the API can name the cause, a machine-readable `type`. Check `type`, not the text of `message`. Parameter and key errors also carry `errors`, one entry per problem (`message`, `param`, `type`); the top-level `message` and `type` repeat the API key's entry when there is one, otherwise the first.  | `type` | HTTP | Meaning | | --- | --- | --- | | `MISSING_PARAMETER` | 400 | A required parameter was not sent | | `INVALID_PARAMETER` | varies | A parameter has a value the endpoint cannot use | | `INVALID_POOL` | 400 | `/purchase/sms`: the `pool` name does not exist | | `INVALID_KEY` | 401 / 403 | The API key is malformed (401) or unknown or revoked (403) | | `API_KEY_SCOPE` | 403 | The API key is not allowed to call this endpoint, or not from this IP address | | `RATE_LIMITED` | 429 | Too many requests; wait for the `Retry-After` header's seconds | | `IDEMPOTENCY_IN_PROGRESS` | 409 | The first request with this `Idempotency-Key` has not finished |  Endpoints add their own types (for example `OUT_OF_STOCK`). Older errors may have no `type`.  ## Idempotent purchases  `/purchase/sms`, `/purchase/rental`, `/esim/purchase` and `/voucher/generate` accept an optional `Idempotency-Key` header (or an `idempotency_key` parameter): 1 to 128 printable ASCII characters that you choose, unique per purchase, for example a UUID. If a request times out, send it again with the same key:  - the first request runs normally; - a repeat within 24 hours answers with the first request's status and body and the header `Idempotent-Replay: true`, and buys nothing; - a repeat while the first is still running answers `409` with `type: IDEMPOTENCY_IN_PROGRESS`; retry shortly.  A request that bought nothing (`success: 0`) does not use up its key, so it can be retried with the same one. A key belongs to your account and the endpoint. Requests without a key behave as they always have.  ## Webhooks  Instead of polling `/sms/check`, set a webhook URL under Settings → Developer and receive each SMS as a signed JSON `POST`. The events are listed under Webhooks below; setup, retries and signature checks are described in [How to set up webhooks](https://www.smspool.net/article/how-to-setup-webhooks-for-smspool-ec19b80ade92).  ## Health check  `GET /up` needs no key and answers `200 {\"status\":\"ok\",...}` or `503 {\"status\":\"degraded\",...}`.
  *
  * The version of the OpenAPI document: 1.0
  * 
@@ -478,6 +478,149 @@ public class InformationApi {
         return localVarCall;
     }
     /**
+     * Build call for requestAutoCountry
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call requestAutoCountryCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/request/auto_country";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (service != null) {
+            localVarFormParams.put("service", service);
+        }
+
+        if (pricingOption != null) {
+            localVarFormParams.put("pricing_option", pricingOption);
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/x-www-form-urlencoded"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call requestAutoCountryValidateBeforeCall(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'service' is set
+        if (service == null) {
+            throw new ApiException("Missing the required parameter 'service' when calling requestAutoCountry(Async)");
+        }
+
+        return requestAutoCountryCall(service, pricingOption, _callback);
+
+    }
+
+    /**
+     * Pick the best country for a service
+     * Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its expected success rate, weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  &#x60;success_rate&#x60; is that expected rate. Where the service has at least 20 recent orders in the country it is the measured rate and &#x60;rate_measured&#x60; is true. With fewer, it is an estimate that blends those orders (&#x60;rate_orders&#x60; of them) with how the country does across all services and how the service does elsewhere, and &#x60;rate_measured&#x60; is false.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public Object requestAutoCountry(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption) throws ApiException {
+        ApiResponse<Object> localVarResp = requestAutoCountryWithHttpInfo(service, pricingOption);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Pick the best country for a service
+     * Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its expected success rate, weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  &#x60;success_rate&#x60; is that expected rate. Where the service has at least 20 recent orders in the country it is the measured rate and &#x60;rate_measured&#x60; is true. With fewer, it is an estimate that blends those orders (&#x60;rate_orders&#x60; of them) with how the country does across all services and how the service does elsewhere, and &#x60;rate_measured&#x60; is false.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Object> requestAutoCountryWithHttpInfo(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption) throws ApiException {
+        okhttp3.Call localVarCall = requestAutoCountryValidateBeforeCall(service, pricingOption, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Pick the best country for a service (asynchronously)
+     * Returns the country SMSPool would order from for this service when you do not want to choose one (the quick order&#39;s \&quot;Pick for me\&quot;). It sends an HTTP POST request to the URL &#x60;https://api.smspool.net/request/auto_country&#x60;.  Every country with stock is scored on its expected success rate, weighed down when little stock backs it, minus a little per dollar, plus a bonus when it matches the country your request&#39;s IP resolves to (a local number verifies more often). The IP country is only used for that comparison; it is neither stored nor returned. Ties go to more stock, then the lower price. With &#x60;pricing_option&#x3D;1&#x60; the cheapest country within reach of the best score wins instead.  &#x60;success_rate&#x60; is that expected rate. Where the service has at least 20 recent orders in the country it is the measured rate and &#x60;rate_measured&#x60; is true. With fewer, it is an estimate that blends those orders (&#x60;rate_orders&#x60; of them) with how the country does across all services and how the service does elsewhere, and &#x60;rate_measured&#x60; is false.  Send &#x60;auto_country&#x3D;1&#x60; to &#x60;/purchase/sms&#x60; to order with the same choice in one call.
+     * @param service Service name or service ID which can be retrieved at the /service/retrieve_all endpoint (required)
+     * @param pricingOption Set to 1 to prefer the cheapest country among those close to the best score; 0 (default) picks purely on the score. (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call requestAutoCountryAsync(@javax.annotation.Nonnull String service, @javax.annotation.Nullable Integer pricingOption, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = requestAutoCountryValidateBeforeCall(service, pricingOption, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for requestBalance
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -544,7 +687,7 @@ public class InformationApi {
 
     /**
      * Balance
-     * This HTTP POST request is used to retrieve the balance for a specific SMSPool. The request is sent to the URL &#x60;https://api.smspool.net/request/balance&#x60;.  ### Request Parameters  This request require the \\&#x60;key\\&#x60; param which is your API key  ### Response  The response to this request will have a status code of 200 if the request is successful. The response body will be in JSON format and will include a &#x60;balance&#x60; field. However, the last execution of this request returned an empty string for the &#x60;balance&#x60; field.  Please note that the actual value of the &#x60;balance&#x60; field may vary depending on the user and its configuration.
+     * Retrieves your account balance in USD.  ### Request Parameters  Only your API key, sent as a bearer token.  ### Response  A JSON object with a &#x60;balance&#x60; field: the balance as a string with two decimals, for example &#x60;\&quot;5.00\&quot;&#x60;.
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -564,7 +707,7 @@ public class InformationApi {
 
     /**
      * Balance
-     * This HTTP POST request is used to retrieve the balance for a specific SMSPool. The request is sent to the URL &#x60;https://api.smspool.net/request/balance&#x60;.  ### Request Parameters  This request require the \\&#x60;key\\&#x60; param which is your API key  ### Response  The response to this request will have a status code of 200 if the request is successful. The response body will be in JSON format and will include a &#x60;balance&#x60; field. However, the last execution of this request returned an empty string for the &#x60;balance&#x60; field.  Please note that the actual value of the &#x60;balance&#x60; field may vary depending on the user and its configuration.
+     * Retrieves your account balance in USD.  ### Request Parameters  Only your API key, sent as a bearer token.  ### Response  A JSON object with a &#x60;balance&#x60; field: the balance as a string with two decimals, for example &#x60;\&quot;5.00\&quot;&#x60;.
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -585,7 +728,7 @@ public class InformationApi {
 
     /**
      * Balance (asynchronously)
-     * This HTTP POST request is used to retrieve the balance for a specific SMSPool. The request is sent to the URL &#x60;https://api.smspool.net/request/balance&#x60;.  ### Request Parameters  This request require the \\&#x60;key\\&#x60; param which is your API key  ### Response  The response to this request will have a status code of 200 if the request is successful. The response body will be in JSON format and will include a &#x60;balance&#x60; field. However, the last execution of this request returned an empty string for the &#x60;balance&#x60; field.  Please note that the actual value of the &#x60;balance&#x60; field may vary depending on the user and its configuration.
+     * Retrieves your account balance in USD.  ### Request Parameters  Only your API key, sent as a bearer token.  ### Response  A JSON object with a &#x60;balance&#x60; field: the balance as a string with two decimals, for example &#x60;\&quot;5.00\&quot;&#x60;.
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
